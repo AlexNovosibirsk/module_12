@@ -56,60 +56,41 @@ class TournamentTest(unittest.TestCase):
     def test_1(self):
         tournament = Tournament(90, self.Husain, self.Nike)
         self.all_results = tournament.start()
-
-        # код ниже предназначен для формирования списка словарей из каждого теста,
-        # каждый из этих словарей содержит позицию бегуна (key) и имя бегуна (val) - не его объект.
-        # этот список нужен для вывода результата в методе tearDownClass в формате согласно заданию
-        # насколько преемлемо такое решение?
-        d = {}
-        for key, val in self.all_results.items():
-            d[key] = val.name
-        self.list_tests.append(d)
-
+        self.list_tests.append(self.all_results)
         # сравниваются последний объект из all_results (брать по наибольшему ключу) и
         # предполагаемое имя последнего бегуна.
-        max_number_keys = max(list(self.all_results.keys()))
-                                                        # Ник всегда последний.
-        self.assertTrue(self.all_results.get(max_number_keys) == self.Nike.name)
+        max_num_keys = max(self.all_results.keys())
+        self.assertTrue(self.all_results.get(max_num_keys) == self.Nike.name)  # Ник всегда последний.
 
     def test_2(self):
         tournament = Tournament(90, self.Andy, self.Nike)
         self.all_results = tournament.start()
-
-        d = {}
-        for key, val in self.all_results.items():
-            d[key] = val.name
-        self.list_tests.append(d)
-
-        max_number_keys = max(list(self.all_results.keys()))
-        self.assertTrue(self.all_results.get(max_number_keys) == self.Nike.name)
+        self.list_tests.append(self.all_results)
+        max_num_keys = max(self.all_results.keys())
+        self.assertTrue(self.all_results.get(max_num_keys) == self.Nike.name)
 
     def test_3(self):
         tournament = Tournament(90, self.Husain, self.Andy, self.Nike)
         self.all_results = tournament.start()
-
-        d = {}
-        for key, val in self.all_results.items():
-            d[key] = val.name
-        self.list_tests.append(d)
-
-        max_number_keys = max(list(self.all_results.keys()))
-        self.assertTrue(self.all_results.get(max_number_keys) == self.Nike.name)
+        self.list_tests.append(self.all_results)
+        max_num_keys = max(self.all_results.keys())
+        self.assertTrue(self.all_results.get(max_num_keys) == self.Nike.name)
 
     @classmethod
-    def tearDownClass(cls):
-        print("tearDownClass:")
-        for item in cls.list_tests:
-            print(item)
+    def tearDownClass(cls):  # tearDownClass - метод, где выводятся all_results по очереди в столбец.
+        d = {}
+        for dict_ in cls.list_tests:
+            for key, val in dict_.items():
+                d[key] = val.name
+            print(d)
 
-# tearDownClass - метод, где выводятся all_results по очереди в столбец.
+
+if __name__ == "__main__":
+    unittest.main()
 
 # Вывод на консоль:
 # {1: Усэйн, 2: Ник}
 # {1: Андрей, 2: Ник}
 # {1: Андрей, 2: Усэйн, 3: Ник}
-# Ran 3 tests in 0.001s
+# Ran 3 tests in 0.003s
 # OK
-
-if __name__ == "__main__":
-    unittest.main()
